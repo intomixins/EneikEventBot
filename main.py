@@ -10,8 +10,8 @@ load_dotenv()
 
 bot = telebot.TeleBot(os.getenv('BOT_TOKEN'))
 
-chat_id = -1001966702354
-# chat_id = -1001855558283
+# chat_id = -1001966702354
+chat_id = -1001855558283
 
 
 @bot.message_handler(commands=['id'])
@@ -21,7 +21,7 @@ def get_id(message):
 
 def send_event_map():
     response = requests.get('https://eneik.ge/event/telegram').json()
-    bot.send_message(chat_id, COMMON_TEXT, message_thread_id=2, parse_mode='html')
+    bot.send_message(chat_id, COMMON_TEXT, message_thread_id=332, parse_mode='html')
     no_tag = ''
     DAILY = {
         '#каждый_понедельник': '',
@@ -57,17 +57,15 @@ def send_event_map():
                 DAILY[day_of_week] += result
         if not flag:
             no_tag += result
-    bot.send_photo(chat_id, open(f'photos/no_tag.png', 'rb'), reply_to_message_id=2, parse_mode='html')
-    bot.send_message(chat_id, f'{no_tag}\n\n{FINISH_TEXT}', reply_to_message_id=2, parse_mode='html')
+    bot.send_photo(chat_id, open(f'photos/no_tag.png', 'rb'), reply_to_message_id=332, parse_mode='html')
+    bot.send_message(chat_id, f'{no_tag}\n\n{FINISH_TEXT}', reply_to_message_id=332, parse_mode='html')
     for day_of_week in DAILY:
         if DAILY[day_of_week]:
             photo = open(f'photos/{day_of_week}.jpg', 'rb')
             bot.send_photo(chat_id, photo, f'{DAILY[day_of_week]}\n\n{FINISH_TEXT}',
-                           reply_to_message_id=2, parse_mode='html')
+                           reply_to_message_id=332, parse_mode='html')
 
 
-send_event_map()
-
-# sched = BlockingScheduler(timezone=get_localzone())
-# sched.add_job(send_event_map, 'cron', day_of_week='mon', hour=9)
-# sched.start()
+sched = BlockingScheduler(timezone=get_localzone())
+sched.add_job(send_event_map, 'cron', day_of_week='sat', hour=14)
+sched.start()
