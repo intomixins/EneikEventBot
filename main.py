@@ -46,6 +46,7 @@ def send_event_map():
         result = ''
         if status:
             result += f'🎥{date}\n{time} показ фильма <b>{event["name"]}</b>\n\n'
+            result += f'Описание: {description}\n'
         else:
             result += f'{date}\n{time} <b>{event["name"]}</b>\n'
             result += f'{url}\n'
