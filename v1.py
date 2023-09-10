@@ -10,8 +10,8 @@ load_dotenv()
 
 bot = telebot.TeleBot(os.getenv('BOT_TOKEN'))
 
-# chat_id = -1001966702354
-chat_id = -1001855558283
+chat_id = -1001966702354  # mine
+# chat_id = -1001855558283  # eneik
 
 
 @bot.message_handler(commands=['id'])
@@ -21,7 +21,14 @@ def get_id(message):
 
 def send_event_map():
     response = requests.get('https://eneik.ge/event/telegram').json()
-    bot.send_message(chat_id, COMMON_TEXT, message_thread_id=332, parse_mode='html')
+
+    bot.send_message(
+        chat_id,
+        COMMON_TEXT,
+        message_thread_id=332,
+        parse_mode='html'
+    )
+
     no_tag = ''
     DAILY = {
         '#каждый_понедельник': '',
@@ -32,16 +39,25 @@ def send_event_map():
         '#каждую_субботу': '',
         '#каждое_воскресенье': '',
     }
+
     for event in response:
         status = True if 'dub' in event['description'] else False
         url = f'https://eneik.ge/event/{event["id"]}'
         date, time = event['dateStart'].split(' ')
-        day, month, year = date.split('-')[2], DCT[date.split('-')[1]], date.split('-')[0]
+        day, month, year = (
+            date.split('-')[2],
+            DCT[date.split('-')[1]],
+            date.split('-')[0]
+        )
         if int(day) < 10:
             day = day[1]
         date = f"#{day}{month}{year}"
         time = f"{time.split(':')[0]}:{time.split(':')[1]}"
-        name, description, price = event["name"], event["description"], event["price"]
+        name, description, price = (
+            event["name"],
+            event["description"],
+            event["price"]
+        )
         flag = False
         result = ''
         if status:
