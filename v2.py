@@ -10,8 +10,8 @@ load_dotenv()
 
 bot = telebot.TeleBot(os.environ.get('BOT_TOKEN'))
 
-chat_id = -1001966702354  # mine
-# chat_id = -1001855558283  # eneik
+# chat_id = -1001966702354  # mine
+chat_id = -1001855558283  # eneik
 
 
 @bot.message_handler(commands=['id'])
@@ -25,7 +25,7 @@ def send_event_message():
     bot.send_message(
         chat_id,
         COMMON_TEXT,
-        message_thread_id=2,
+        message_thread_id=332,
         parse_mode='html'
     )
 
@@ -66,7 +66,7 @@ def send_event_message():
             chat_id,
             photo=image,
             caption=result,
-            reply_to_message_id=2,
+            reply_to_message_id=332,
             parse_mode='html'
         )
 
