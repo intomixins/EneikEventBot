@@ -1,6 +1,7 @@
 import os
 import telebot
 import requests
+from time import sleep
 from dotenv import load_dotenv
 from phrases import COMMON_TEXT, DCT
 from apscheduler.schedulers.background import BlockingScheduler
@@ -53,6 +54,7 @@ def send_event_message():
         if status:
             result += (f'🎥{date}\n{time} показ фильма <b>{event["name"]}'
                        f'</b>\n\n')
+            result += f'\n{url}\n\n'
             result += f'Описание: {description}\n'
         else:
             result += f'{date}\n{time} <b>{name}</b>\n'
@@ -69,6 +71,7 @@ def send_event_message():
             reply_to_message_id=332,
             parse_mode='html'
         )
+        sleep(1)
 
 
 sched = BlockingScheduler(timezone=get_localzone())
